@@ -4,6 +4,7 @@ import 'comum/myAppBar.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'main.dart';
+import 'update_meditacoes.dart';
 
 class EditarMeditacoes extends StatelessWidget {
   final List<MinhaMeditacao> meditacoes;
@@ -48,6 +49,7 @@ class EditarMeditacoes extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Center(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   height: 10,
@@ -102,26 +104,46 @@ class EditarMeditacoes extends StatelessWidget {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    deleteMeditacao(meditacoes[index]);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Colors.black,
-                        content: Text(
-                          "Meditação Deletada",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UpdateMeditacoes(
+                                      meditacao: this.meditacoes[index],
+                                    )),
+                          );
+                        },
+                        icon: Icon(Icons.edit),
                       ),
-                    );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyHomePage()),
-                    );
-                  },
-                  child: Text("Deletar Meditação"),
-                )
+                      IconButton(
+                        onPressed: () {
+                          deleteMeditacao(meditacoes[index]);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.black,
+                              content: Text(
+                                "Meditação Deletada",
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyHomePage()),
+                          );
+                        },
+                        icon: Icon(Icons.delete),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           );
